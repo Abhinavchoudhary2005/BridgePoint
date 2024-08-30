@@ -2,8 +2,10 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path"); // Importing the path module
 const { checkForAuth } = require("./middleware/auth");
-const user = require("./routes/user")
+const user = require("./routes/user");
+const event = require("./routes/event");
 
 // PORT
 const PORT = process.env.PORT || 8000;
@@ -35,7 +37,9 @@ app.use(
 app.use(checkForAuth);
 
 // ROUTES
-app.use("/user", user)
+app.use("/images", express.static(path.join(__dirname, "/upload")));
+app.use("/user", user);
+app.use("/event", event);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
